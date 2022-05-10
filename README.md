@@ -9,6 +9,7 @@ This collection of Design Centre APIs automate the need of creating, writing and
 
 # Code Example
 ![API Spec Automation Pre Req] (https://epam-my.sharepoint.com/:i:/p/nitish_raj1/EQLYGpUB8QFFu-H6nih3zaYB5OVwGoMJ9SHKuA0VP5GoDg?e=FK68J2)
+
 ![API Spec Automation Lifecycle] (https://epam-my.sharepoint.com/:i:/p/nitish_raj1/EVwWQ3sMvABEiB_BGZFzgcIB4RNtnexer2OGQ_s7P5e9wQ?e=Y5WdyI)
 
 ## Operations
