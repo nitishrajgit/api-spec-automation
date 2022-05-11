@@ -8,9 +8,9 @@ Some clients face issues with automating the API Specifications written in RAML/
 This collection of Design Centre APIs automate the need of creating, writing and publishing API specs to Design Centre and Exchange provides quick and reliable way of automating API Specifications written 
 
 # Code Example
-![API Spec Automation Pre Req] (https://epam-my.sharepoint.com/:i:/p/nitish_raj1/EQLYGpUB8QFFu-H6nih3zaYB5OVwGoMJ9SHKuA0VP5GoDg?e=FK68J2)
+![API Spec Automation Pre Req] (https://github.com/nitishrajmule/api-spec-automation/blob/main/api-spec-automation-pre-req.png)
 
-![API Spec Automation Lifecycle] (https://epam-my.sharepoint.com/:i:/p/nitish_raj1/EVwWQ3sMvABEiB_BGZFzgcIB4RNtnexer2OGQ_s7P5e9wQ?e=Y5WdyI)
+![API Spec Automation Lifecycle] (https://github.com/nitishrajmule/api-spec-automation/blob/main/api-spec-automation-lifecycle.png)
 
 ## Operations
 1. Login via Connected App
@@ -20,7 +20,8 @@ This collection of Design Centre APIs automate the need of creating, writing and
 5. Publish an asset to Exchange
 
 *Other related optional operations - Adding Dependencies, moving or renaming files or folders, Create fragment, Get file or folder content or structure etc*
-More Platform APIs regarding Exchange, API Manager can be found here - https://www.postman.com/mulesoft-api/workspace/abca7de1-d2bb-4be1-8d2b-8d56f87dfbab/documentation/16547909-1e97eed6-ef8c-4d46-9d30-2ff41c8102c5
+
+- More Platform APIs regarding Exchange, API Manager can be found here - https://www.postman.com/mulesoft-api/workspace/abca7de1-d2bb-4be1-8d2b-8d56f87dfbab/documentation/16547909-1e97eed6-ef8c-4d46-9d30-2ff41c8102c5
 
 # Prerequisites
 Before we start working with Anypoint platform APIs to automate our API specifications, you need these three pieces of data: an access token, the organization id and the owner id. Let us see where you can find those details.
@@ -29,29 +30,29 @@ Before we start working with Anypoint platform APIs to automate our API specific
 This collection pack contains an environment "API Specification Automation". Set the values before you use any request. You must set the following:
 
 ### If Login via Connected App (Using SSO)
-    1. url - Anypoint Platform domain address, e.g. https://anypoint.mulesoft.com
-    2. client - Connected App Client Id
-    3. client_secret - Connected App Client Secret
+- url - Anypoint Platform domain address, e.g. https://anypoint.mulesoft.com
+- client - Connected App Client Id
+- client_secret - Connected App Client Secret
 
 ##### *If Login via Username Password*
-    1. url - This will be your Anypoint Platform domain address, e.g. https://anypoint.mulesoft.com
-    2. username - This will be login Username
-    3. password - This will be login password
+- url - This will be your Anypoint Platform domain address, e.g. https://anypoint.mulesoft.com
+- username - This will be login Username
+- password - This will be login password
 
 ### Mandatory environment variables for Project Creation
-    1. Project_name - E.g. FINS Salesforce Insurance Exp API Spec
-    2. project_classifier - E.g. raml or oas
-    3. project_language - E.g. raml (raml) yaml or json (oas)
+- Project_name - E.g. FINS Salesforce Insurance Exp API Spec
+- project_classifier - E.g. raml or oas
+- project_language - E.g. raml (raml) yaml or json (oas)
 
 ### Mandatory environment variables for adding any Project Dependencies
-    1. dependency_groupId
-    2. dependency_assetId
-    3. dependency_versionId
+- dependency_groupId
+- dependency_assetId
+- dependency_versionId
 
 ### Mandatory environment variables for publishing specs/ fragments to exchange
-    1. exchange_apiVersion (e.g. v1)
-    2. exchange_assetVersion (e.g. 1.0.0)
-    3. exchange_assetId (e.g. salesforce-sys-api-spec)
+- exchange_apiVersion (e.g. v1)
+- exchange_assetVersion (e.g. 1.0.0)
+- exchange_assetId (e.g. salesforce-sys-api-spec)
 
 # API Reference
 
