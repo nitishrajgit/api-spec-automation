@@ -1,10 +1,10 @@
 # Project description
 Every time you log in to the MuleSoft Anypoint Platform using the User Interface Portal, you are implicitly calling a set of APIs invoked by the UI: the Platform APIs! Instead of UI, you can do direct HTTP requests, highly useful When automating your Software Development Lifecycle. They provide you with more flexibility and customization than the Anypoint CLI or the Mule Maven Plugin.
 
-You can make use of this project - postman collection to automate your API Specification, be it - RAML or OAS, written anywhere.
+You can make use of this project - postman collection to automate your API Specification, be it - RAML or OAS, **written anywhere.**
 
 # Motivation
-Some clients face issues with automating the API Specifications written in RAML/ OAS outside of the design centre and implementing those specs using MuleSoft Anypoint Platform. Creating or pasting already written API Specs is time taking and repetative task.
+Some clients face issues with automating the API Specifications written in RAML/ OAS outside of the design centre and implementing those specs using MuleSoft Anypoint Platform. Creating or pasting already written API Specs is time taking and repetitive task.
 This collection of Design Centre APIs automate the need of creating, writing and publishing API specs to Design Centre and Exchange provides quick and reliable way of automating API Specifications written 
 
 # Code Example
@@ -164,6 +164,9 @@ All APIs come with tests and while automating the collection, make sure they are
 
 # TODO
 Do not forget to issue **Soft/ Hard delete an asset in Exchange Copy** for Design Centre and Exchange in case you are testing out this project. You would not want to create any unncessary projects/ assets in your design centre or exchange. 
+
+# Youtube tutorial on how to use this collection
+*Coming soon*
 
 # versioning
 NA 
