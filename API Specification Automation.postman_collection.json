@@ -1,0 +1,1814 @@
+{
+	"info": {
+		"_postman_id": "6f591901-eeac-4236-824b-9d41c3192f28",
+		"name": "API Specification Automation",
+		"description": "# Project description\nEvery time you log in to the MuleSoft Anypoint Platform using the User Interface Portal, you are implicitly calling a set of APIs invoked by the UI: the Platform APIs! Instead of UI, you can do direct HTTP requests, highly useful When automating your Software Development Lifecycle. They provide you with more flexibility and customization than the Anypoint CLI or the Mule Maven Plugin.\n\nYou can make use of this project - postman collection to automate your API Specification, be it - RAML or OAS, written anywhere.\n\n# Motivation\nSome clients face issues with automating the API Specifications written in RAML/ OAS outside of the design centre and implementing those specs using MuleSoft Anypoint Platform. Creating or pasting already written API Specs is time taking and repetative task.\nThis collection of Design Centre APIs automate the need of creating, writing and publishing API specs to Design Centre and Exchange provides quick and reliable way of automating API Specifications written \n\n# Code Example\n![alt text] (https://epam-my.sharepoint.com/:i:/p/nitish_raj1/EQLYGpUB8QFFu-H6nih3zaYB5OVwGoMJ9SHKuA0VP5GoDg?e=FK68J2)\n![alt text] (https://epam-my.sharepoint.com/:i:/p/nitish_raj1/EVwWQ3sMvABEiB_BGZFzgcIB4RNtnexer2OGQ_s7P5e9wQ?e=Y5WdyI)\n\n## Operations\n1. Login via Connected App\n2. Create a new project\n3. Acquire write lock on the branch\n4. Add file(s) or folder(s) to upload\n5. Publish an asset to Exchange\n\n*Other related optional operations - Adding Dependencies, moving or renaming files or folders, Create fragment, Get file or folder content or structure etc*\nMore Platform APIs regarding Exchange, API Manager can be found here - https://www.postman.com/mulesoft-api/workspace/abca7de1-d2bb-4be1-8d2b-8d56f87dfbab/documentation/16547909-1e97eed6-ef8c-4d46-9d30-2ff41c8102c5\n\n# Prerequisites\nBefore we start working with Anypoint platform APIs to automate our API specifications, you need these three pieces of data: an access token, the organization id and the owner id. Let us see where you can find those details.\n\n# Installation\nThis collection pack contains an environment \"API Specification Automation\". Set the values before you use any request. You must set the following:\n\n### If Login via Connected App (Using SSO)\n    1. url - Anypoint Platform domain address, e.g. https://anypoint.mulesoft.com\n    2. client - Connected App Client Id\n    3. client_secret - Connected App Client Secret\n\n##### *If Login via Username Password*\n    1. url - This will be your Anypoint Platform domain address, e.g. https://anypoint.mulesoft.com\n    2. username - This will be login Username\n    3. password - This will be login password\n\n### Mandatory environment variables for Project Creation\n    1. Project_name - E.g. FINS Salesforce Insurance Exp API Spec\n    2. project_classifier - E.g. raml or oas\n    3. project_language - E.g. raml (raml) yaml or json (oas)\n\n### Mandatory environment variables for adding any Project Dependencies\n    1. dependency_groupId\n    2. dependency_assetId\n    3. dependency_versionId\n\n### Mandatory environment variables for publishing specs/ fragments to exchange\n    1. exchange_apiVersion (e.g. v1)\n    2. exchange_assetVersion (e.g. 1.0.0)\n    3. exchange_assetId (e.g. salesforce-sys-api-spec)\n\n# API Reference\n\n#### 1. Login via Connected App\n\n```https\nPOST {{url}}/accounts/api/v2/oauth2/token\n\ncurl --location --request POST 'https://anypoint.mulesoft.com/accounts/api/v2/oauth2/token' \\\n--header 'Content-Type: application/json' \\\n--data-raw '{\n    \"client_id\": \"16bd7f3edeb046f2a460a17569a8f034\",\n    \"client_secret\": \"9876775EA68643b0ae7e11cDaD2a3390\",\n    \"grant_type\": \"client_credentials\"\n}'\n```\n\n#### 2. Get profile information\n\n```https\nGET {{url}}/accounts/api/profile\n\ncurl --location --request GET 'https://anypoint.mulesoft.com/accounts/api/profile' \\\n--header 'Authorization: Bearer 0caf7d88-0d67-408b-82bb-4d083f1fa9ba' \n```\n\n#### 3. Create a new project\n\n```https\nPOST {{url}}/designcenter/api-designer/projects\n\ncurl --location --request POST 'https://anypoint.mulesoft.com/designcenter/api-designer/projects' \\\n    --header 'Authorization: Bearer 0caf7d88-0d67-408b-82bb-4d083f1fa9ba' \\\n    --header 'x-organization-id: 3d4f22b1-075d-4054-b298-04c96a1e2d2c' \\\n    --header 'x-owner-id: 486bbf0f-925d-431f-9e88-50eda43f30aa' \\\n    --header 'Content-Type: application/json' \\\n    --data-raw '{\n        \"name\": \"FINS Salesforce Insurance Exp API Spec\",\n        \"classifier\": \"raml\"\n}'\n```\n\n#### 4. Acquire the Write Lock\n\n```https\nPOST {{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/acquireLock\n\ncurl --location --request POST 'https://anypoint.mulesoft.com/designcenter/api-designer/projects/9b92e545-8ab3-45ca-96dd-ca0c365daa94/branches/master/acquireLock' \\\n    --header 'Authorization: Bearer 0caf7d88-0d67-408b-82bb-4d083f1fa9ba' \\\n    --header 'x-organization-id: 3d4f22b1-075d-4054-b298-04c96a1e2d2c' \\\n    --header 'x-owner-id: 486bbf0f-925d-431f-9e88-50eda43f30aa' \\\n    --header 'Content-Type: application/json' \\\n    --data-raw '{}'\n```\n\n#### 5. Upload a File (Any - File or File with Folder)\n\n```https\nPOST {{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/save/v2\n\ncurl --location --request POST 'https://anypoint.mulesoft.com/designcenter/api-designer/projects/9b92e545-8ab3-45ca-96dd-ca0c365daa94/branches/master/save/v2' \\\n    --header 'Authorization: Bearer 0caf7d88-0d67-408b-82bb-4d083f1fa9ba' \\\n    --header 'x-organization-id: 3d4f22b1-075d-4054-b298-04c96a1e2d2c' \\\n    --header 'x-owner-id: 486bbf0f-925d-431f-9e88-50eda43f30aa' \\\n    --form 'fins-salesforce-insurance-exp-api-spec.raml=@\"/C:/NonProjects/MuleSoft/API Spec Automation/fins-salesforce-insurance-exp-api-spec.raml\"' \\\n    --form 'dataTypes/ExternalIdType.raml=@\"/C:/NonProjects/MuleSoft/API Spec Automation/dataTypes/ExternalIdType.raml\"' \\\n    --form 'dataTypes/ValidationResponseType.raml=@\"/C:/NonProjects/MuleSoft/API Spec Automation/dataTypes/ValidationResponseType.raml\"' \\\n    --form 'examples/ExternalIdExample.raml=@\"/C:/NonProjects/MuleSoft/API Spec Automation/examples/ExternalIdExample.raml\"' \\\n    --form 'examples/ValidationResponseExample.raml=@\"/C:/NonProjects/MuleSoft/API Spec Automation/examples/ValidationResponseExample.raml\"'\n```\n\n#### 6. Publish to Exchange\n\n```https\nPOST {{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/publish/exchange\n\ncurl --location --request POST 'https://anypoint.mulesoft.com/designcenter/api-designer/projects/9b92e545-8ab3-45ca-96dd-ca0c365daa94/branches/master/publish/exchange' \\\n    --header 'Authorization: Bearer 0caf7d88-0d67-408b-82bb-4d083f1fa9ba' \\\n    --header 'x-organization-id: 3d4f22b1-075d-4054-b298-04c96a1e2d2c' \\\n    --header 'x-owner-id: 486bbf0f-925d-431f-9e88-50eda43f30aa' \\\n    --header 'Content-Type: application/json' \\\n    --data-raw '{\n        \"main\": \"fins-salesforce-insurance-exp-api-spec.raml\",\n        \"apiVersion\": \"v1\",\n        \"version\": \"1.0.0\",\n        \"assetId\": \"fins-salesforce-insurance-exp-api-spec\",\n        \"groupId\": \"3d4f22b1-075d-4054-b298-04c96a1e2d2c\",\n        \"classifier\": \"raml\"\n    }'\n```\n\n\n\n# Tests\nAll APIs come with tests and while automating the collection, make sure they are active.\n\n# Contributing\n\n    1. Clone the repository\n    2. Create a feature branch: git checkout -b my-new-feature\n    3. Commit your changes: git commit -am 'Added a feature'\n    4. Push to the branch: git push origin my-new-feature\n    5. Submit a pull request to merge into the development branch and request peer review\n\n# TODO\nDo not forget to issue **Soft/ Hard delete an asset in Exchange Copy** for Design Centre and Exchange in case you are testing out this project. You would not want to create any unncessary projects/ assets in your design centre or exchange. \n\n# versioning\nNA \n\n# Release\nNA\n\n# License\nNA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login via Connected App",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Parse response body in JSON\r",
+							"var data = JSON.parse(responseBody);\r",
+							"\r",
+							"//Assign variable access_token to JSONResponse\r",
+							"pm.environment.set(\"access_token\",data.access_token);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_id\": \"{{client_id}}\",\r\n    \"client_secret\": \"{{client_secret}}\",\r\n    \"grant_type\": \"client_credentials\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/accounts/api/v2/oauth2/token",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"accounts",
+						"api",
+						"v2",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login via Connected App",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client_id\": \"{{client_id}}\",\r\n    \"client_secret\": \"{{client_secret}}\",\r\n    \"grant_type\": \"client_credentials\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/accounts/api/v2/oauth2/token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"accounts",
+								"api",
+								"v2",
+								"oauth2",
+								"token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"e344b772-9155-4dc1-b880-b616260c7e27\",\n    \"expires_in\": 3426,\n    \"token_type\": \"bearer\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Login via Username Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Parse response body in JSON\r",
+							"var data = JSON.parse(responseBody);\r",
+							"\r",
+							"//Assign variable access_token to JSONResponse\r",
+							"pm.environment.set(\"access_token\",data.access_token);\r",
+							"\r",
+							"pm.environment.set(\"cookies\", \"_csrf=\" + pm.cookies.get(\"_csrf\") +\r",
+							"                              \"; XSRF-TOKEN=\" + pm.cookies.get(\"XSRF-TOKEN\") +\r",
+							"                              \"; mulesoft.sess=\" + pm.cookies.get(\"mulesoft.sess\") +\r",
+							"                              \"; mulesoft.sess.sig=\" + pm.cookies.get(\"mulesoft.sess.sig\") );\r",
+							"                              \r",
+							"pm.cookies.jar().clear(pm.environment.get(\"url\"));\r",
+							"const cookieJar = pm.cookies.jar();\r",
+							"cookieJar.clear(pm.environment.get(\"url\"));\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const jar = pm.cookies.jar();\r",
+							"\r",
+							"jar.clear(pm.request.url, function (error) {\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{anypoint_username}}\",\r\n  \"password\": \"{{anypoint_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/accounts/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"accounts",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login via Username Password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/accounts/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"accounts",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"69cfcdc1-583b-47c0-bd74-1c3b93e1ea8d\",\n    \"token_type\": \"bearer\",\n    \"redirectUrl\": \"/home/\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get profile information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Set Organization Id\r",
+							"var data = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"x-organization-id\", data.organizationId);\r",
+							"pm.environment.set(\"x-owner-id\",data.id)\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/accounts/api/profile",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"accounts",
+						"api",
+						"profile"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get profile information",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/accounts/api/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"accounts",
+								"api",
+								"profile"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"id\": \"af6e242e-e5ad-4d29-9497-a373885cd521\",\n    \"createdAt\": \"2022-04-11T09:24:44.649Z\",\n    \"updatedAt\": \"2022-05-05T10:58:06.599Z\",\n    \"organizationId\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n    \"firstName\": \"Nitish\",\n    \"lastName\": \"Raj\",\n    \"email\": \"nitishrajdce@gmail.com\",\n    \"phoneNumber\": \"07442783516\",\n    \"username\": \"nitishrajapril2022\",\n    \"idprovider_id\": \"mulesoft\",\n    \"enabled\": true,\n    \"deleted\": false,\n    \"lastLogin\": \"2022-05-05T10:58:00.000Z\",\n    \"mfaVerificationExcluded\": true,\n    \"mfaVerifiersConfigured\": \"false\",\n    \"isFederated\": false,\n    \"type\": \"host\",\n    \"organizationPreferences\": {},\n    \"organization\": {\n        \"name\": \"EPAM Systems Inc\",\n        \"id\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n        \"createdAt\": \"2022-04-11T09:24:44.649Z\",\n        \"updatedAt\": \"2022-04-11T09:25:21.493Z\",\n        \"ownerId\": \"af6e242e-e5ad-4d29-9497-a373885cd521\",\n        \"clientId\": \"5e6e0dd97143414fb17e786ba54179fc\",\n        \"idprovider_id\": \"mulesoft\",\n        \"isFederated\": false,\n        \"parentOrganizationIds\": [],\n        \"subOrganizationIds\": [\n            \"2dfeddf4-f92a-49f5-b923-8f46427fe5ef\"\n        ],\n        \"tenantOrganizationIds\": [],\n        \"mfaRequired\": \"no\",\n        \"isAutomaticAdminPromotionExempt\": false,\n        \"orgType\": \"anypoint\",\n        \"domain\": \"epam-systems-inc-3\",\n        \"isMaster\": true,\n        \"subscription\": {\n            \"category\": \"Developer\",\n            \"type\": \"Trial\",\n            \"expiration\": \"2022-05-11T09:24:45.276Z\"\n        },\n        \"properties\": {},\n        \"environments\": [\n            {\n                \"id\": \"f281c819-3774-46f9-8b70-ab6bf780be4b\",\n                \"name\": \"Design\",\n                \"organizationId\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n                \"isProduction\": false,\n                \"type\": \"design\",\n                \"clientId\": \"67791f81817c4f988a3bc2c27964cb0a\"\n            },\n            {\n                \"id\": \"d64b8109-9d96-4077-a8c7-32d2b66bd866\",\n                \"name\": \"Sandbox\",\n                \"organizationId\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n                \"isProduction\": false,\n                \"type\": \"sandbox\",\n                \"clientId\": \"1a84cb59127c4b1db6c81417b2bce547\"\n            }\n        ],\n        \"entitlements\": {\n            \"createEnvironments\": true,\n            \"globalDeployment\": false,\n            \"createSubOrgs\": true,\n            \"hybrid\": {\n                \"enabled\": true\n            },\n            \"hybridInsight\": true,\n            \"hybridAutoDiscoverProperties\": true,\n            \"vCoresProduction\": {\n                \"assigned\": 0,\n                \"reassigned\": 0\n            },\n            \"vCoresSandbox\": {\n                \"assigned\": 1,\n                \"reassigned\": 0\n            },\n            \"vCoresDesign\": {\n                \"assigned\": 1,\n                \"reassigned\": 0\n            },\n            \"staticIps\": {\n                \"assigned\": 0,\n                \"reassigned\": 0\n            },\n            \"vpcs\": {\n                \"assigned\": 0,\n                \"reassigned\": 0\n            },\n            \"vpns\": {\n                \"assigned\": 0,\n                \"reassigned\": 0\n            },\n            \"networkConnections\": {\n                \"assigned\": 0,\n                \"reassigned\": 0\n            },\n            \"workerLoggingOverride\": {\n                \"enabled\": false\n            },\n            \"mqMessages\": {\n                \"base\": 0,\n                \"addOn\": 0\n            },\n            \"mqRequests\": {\n                \"base\": 0,\n                \"addOn\": 0\n            },\n            \"objectStoreRequestUnits\": {\n                \"base\": 0,\n                \"addOn\": 0\n            },\n            \"objectStoreKeys\": {\n                \"base\": 0,\n                \"addOn\": 0\n            },\n            \"mqAdvancedFeatures\": {\n                \"enabled\": false\n            },\n            \"gateways\": {\n                \"assigned\": 0\n            },\n            \"designCenter\": {\n                \"mozart\": true,\n                \"api\": true,\n                \"apiVisual\": false,\n                \"apiExample\": false\n            },\n            \"partnersProduction\": {\n                \"assigned\": 0\n            },\n            \"partnersSandbox\": {\n                \"assigned\": 0\n            },\n            \"tradingPartnersProduction\": {\n                \"assigned\": 0\n            },\n            \"tradingPartnersSandbox\": {\n                \"assigned\": 0\n            },\n            \"loadBalancer\": {\n                \"assigned\": 0,\n                \"reassigned\": 0\n            },\n            \"externalIdentity\": true,\n            \"autoscaling\": false,\n            \"armAlerts\": true,\n            \"apis\": {\n                \"enabled\": true\n            },\n            \"apiMonitoring\": {\n                \"schedules\": 0\n            },\n            \"apiCommunityManager\": {\n                \"enabled\": false\n            },\n            \"apiExperienceHub\": {\n                \"enabled\": false\n            },\n            \"monitoringCenter\": {\n                \"productSKU\": 0,\n                \"rawStorageOverrideGB\": 0,\n                \"dataRegion\": \"us-east-1\",\n                \"productionUnits\": 0,\n                \"preProductionUnits\": 0,\n                \"storageBase\": 0,\n                \"storageAddOn\": 0\n            },\n            \"apiQuery\": {\n                \"enabled\": true,\n                \"productSKU\": 1,\n                \"production\": 0,\n                \"sandbox\": 1\n            },\n            \"apiQueryC360\": {\n                \"enabled\": false\n            },\n            \"angGovernance\": {\n                \"level\": -1\n            },\n            \"apiGovernance\": {\n                \"enabled\": true,\n                \"apisPerMonth\": 5\n            },\n            \"crowd\": {\n                \"hideApiManagerDesigner\": true,\n                \"hideFormerApiPlatform\": true,\n                \"environments\": true\n            },\n            \"cam\": {\n                \"enabled\": false\n            },\n            \"exchange2\": {\n                \"enabled\": false\n            },\n            \"crowdSelfServiceMigration\": {\n                \"enabled\": false\n            },\n            \"kpiDashboard\": {\n                \"enabled\": false\n            },\n            \"pcf\": false,\n            \"appViz\": false,\n            \"runtimeFabric\": false,\n            \"anypointSecurityTokenization\": {\n                \"enabled\": false\n            },\n            \"anypointSecurityEdgePolicies\": {\n                \"enabled\": false\n            },\n            \"runtimeFabricCloud\": {\n                \"enabled\": false\n            },\n            \"serviceMesh\": {\n                \"enabled\": true\n            },\n            \"flexGateway\": {\n                \"enabled\": true\n            },\n            \"apiCatalog\": {\n                \"enabled\": false\n            },\n            \"composer\": {\n                \"enabled\": false,\n                \"tasksPerMonth\": 0,\n                \"maxConnectors\": 0,\n                \"unlimitedConnectors\": false\n            },\n            \"muleDxWebIde\": {\n                \"enabled\": false\n            },\n            \"messaging\": {\n                \"assigned\": 0\n            },\n            \"workerClouds\": {\n                \"assigned\": 0,\n                \"reassigned\": 0\n            }\n        },\n        \"owner\": {\n            \"id\": \"af6e242e-e5ad-4d29-9497-a373885cd521\",\n            \"firstName\": \"Nitish\",\n            \"lastName\": \"Raj\",\n            \"email\": \"nitishrajdce@gmail.com\",\n            \"organizationId\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n            \"enabled\": true,\n            \"idprovider_id\": \"mulesoft\",\n            \"createdAt\": \"2022-04-11T09:24:44.649Z\",\n            \"updatedAt\": \"2022-05-05T10:58:06.599Z\",\n            \"lastLogin\": \"2022-05-05T10:58:00.000Z\",\n            \"mfaVerifiersConfigured\": \"false\",\n            \"mfaVerificationExcluded\": true,\n            \"isFederated\": false,\n            \"username\": \"nitishrajapril2022\",\n            \"type\": \"host\"\n        }\n    },\n    \"properties\": {\n        \"cs_auth\": {\n            \"activeOrganizationId\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\"\n        },\n        \"exchange\": {\n            \"isPreviousUIEnabled\": \"true\"\n        }\n    },\n    \"memberOfOrganizations\": [\n        {\n            \"parentName\": null,\n            \"parentId\": null,\n            \"domain\": \"epam-systems-inc-3\",\n            \"name\": \"EPAM Systems Inc\",\n            \"id\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n            \"createdAt\": \"2022-04-11T09:24:44.649Z\",\n            \"updatedAt\": \"2022-04-11T09:25:21.493Z\",\n            \"ownerId\": \"af6e242e-e5ad-4d29-9497-a373885cd521\",\n            \"clientId\": \"5e6e0dd97143414fb17e786ba54179fc\",\n            \"idprovider_id\": \"mulesoft\",\n            \"isFederated\": false,\n            \"parentOrganizationIds\": [],\n            \"subOrganizationIds\": [\n                \"2dfeddf4-f92a-49f5-b923-8f46427fe5ef\"\n            ],\n            \"tenantOrganizationIds\": [],\n            \"mfaRequired\": \"no\",\n            \"isAutomaticAdminPromotionExempt\": false,\n            \"orgType\": \"anypoint\",\n            \"isMaster\": true,\n            \"subscription\": {\n                \"category\": \"Developer\",\n                \"type\": \"Trial\",\n                \"expiration\": \"2022-05-11T09:24:45.276Z\"\n            }\n        },\n        {\n            \"parentName\": \"EPAM Systems Inc\",\n            \"parentId\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n            \"domain\": null,\n            \"name\": \"nitish_bg\",\n            \"id\": \"2dfeddf4-f92a-49f5-b923-8f46427fe5ef\",\n            \"createdAt\": \"2022-04-11T09:25:21.493Z\",\n            \"updatedAt\": \"2022-04-11T09:25:21.493Z\",\n            \"ownerId\": \"af6e242e-e5ad-4d29-9497-a373885cd521\",\n            \"clientId\": \"4d44f8497c3347c3b70663a169c52bd0\",\n            \"idprovider_id\": \"mulesoft\",\n            \"isFederated\": false,\n            \"parentOrganizationIds\": [\n                \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\"\n            ],\n            \"subOrganizationIds\": [],\n            \"tenantOrganizationIds\": [],\n            \"mfaRequired\": null,\n            \"isAutomaticAdminPromotionExempt\": false,\n            \"orgType\": \"anypoint\",\n            \"isMaster\": false\n        },\n        {\n            \"parentName\": null,\n            \"parentId\": null,\n            \"domain\": \"epam-systems-ltd-9\",\n            \"name\": \"EPAM Systems Ltd\",\n            \"id\": \"3d4f22b1-075d-4054-b298-04c96a1e2d2c\",\n            \"createdAt\": \"2022-05-05T08:12:01.413Z\",\n            \"updatedAt\": \"2022-05-05T08:12:01.413Z\",\n            \"ownerId\": \"486bbf0f-925d-431f-9e88-50eda43f30aa\",\n            \"clientId\": \"93de75c3f8b1492c99eecaece52e7950\",\n            \"idprovider_id\": \"mulesoft\",\n            \"isFederated\": false,\n            \"parentOrganizationIds\": [],\n            \"subOrganizationIds\": [],\n            \"tenantOrganizationIds\": [],\n            \"mfaRequired\": \"mandatory\",\n            \"isAutomaticAdminPromotionExempt\": false,\n            \"orgType\": \"anypoint\",\n            \"isMaster\": true,\n            \"subscription\": {\n                \"category\": \"Developer\",\n                \"type\": \"Trial\",\n                \"expiration\": \"2022-06-04T08:12:02.026Z\"\n            }\n        }\n    ],\n    \"contributorOfOrganizations\": [\n        {\n            \"parentName\": null,\n            \"parentId\": null,\n            \"domain\": \"epam-systems-inc-3\",\n            \"name\": \"EPAM Systems Inc\",\n            \"id\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n            \"createdAt\": \"2022-04-11T09:24:44.649Z\",\n            \"updatedAt\": \"2022-04-11T09:25:21.493Z\",\n            \"ownerId\": \"af6e242e-e5ad-4d29-9497-a373885cd521\",\n            \"clientId\": \"5e6e0dd97143414fb17e786ba54179fc\",\n            \"idprovider_id\": \"mulesoft\",\n            \"isFederated\": false,\n            \"parentOrganizationIds\": [],\n            \"subOrganizationIds\": [\n                \"2dfeddf4-f92a-49f5-b923-8f46427fe5ef\"\n            ],\n            \"tenantOrganizationIds\": [],\n            \"mfaRequired\": \"no\",\n            \"isAutomaticAdminPromotionExempt\": false,\n            \"orgType\": \"anypoint\",\n            \"isMaster\": true,\n            \"subscription\": {\n                \"category\": \"Developer\",\n                \"type\": \"Trial\",\n                \"expiration\": \"2022-05-11T09:24:45.276Z\"\n            }\n        },\n        {\n            \"parentName\": \"EPAM Systems Inc\",\n            \"parentId\": \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\",\n            \"domain\": null,\n            \"name\": \"nitish_bg\",\n            \"id\": \"2dfeddf4-f92a-49f5-b923-8f46427fe5ef\",\n            \"createdAt\": \"2022-04-11T09:25:21.493Z\",\n            \"updatedAt\": \"2022-04-11T09:25:21.493Z\",\n            \"ownerId\": \"af6e242e-e5ad-4d29-9497-a373885cd521\",\n            \"clientId\": \"4d44f8497c3347c3b70663a169c52bd0\",\n            \"idprovider_id\": \"mulesoft\",\n            \"isFederated\": false,\n            \"parentOrganizationIds\": [\n                \"e0e9dab4-590d-426e-840d-0dcbdfaffb44\"\n            ],\n            \"subOrganizationIds\": [],\n            \"tenantOrganizationIds\": [],\n            \"mfaRequired\": null,\n            \"isAutomaticAdminPromotionExempt\": false,\n            \"orgType\": \"anypoint\",\n            \"isMaster\": false\n        },\n        {\n            \"parentName\": null,\n            \"parentId\": null,\n            \"domain\": \"epam-systems-ltd-9\",\n            \"name\": \"EPAM Systems Ltd\",\n            \"id\": \"3d4f22b1-075d-4054-b298-04c96a1e2d2c\",\n            \"createdAt\": \"2022-05-05T08:12:01.413Z\",\n            \"updatedAt\": \"2022-05-05T08:12:01.413Z\",\n            \"ownerId\": \"486bbf0f-925d-431f-9e88-50eda43f30aa\",\n            \"clientId\": \"93de75c3f8b1492c99eecaece52e7950\",\n            \"idprovider_id\": \"mulesoft\",\n            \"isFederated\": false,\n            \"parentOrganizationIds\": [],\n            \"subOrganizationIds\": [],\n            \"tenantOrganizationIds\": [],\n            \"mfaRequired\": \"mandatory\",\n            \"isAutomaticAdminPromotionExempt\": false,\n            \"orgType\": \"anypoint\",\n            \"isMaster\": true,\n            \"subscription\": {\n                \"category\": \"Developer\",\n                \"type\": \"Trial\",\n                \"expiration\": \"2022-06-04T08:12:02.026Z\"\n            }\n        }\n    ],\n    \"permissions\": {\n        \"ang_governance\": {\n            \"view\": true\n        },\n        \"api_catalog\": {\n            \"view\": false\n        },\n        \"api_query\": {\n            \"view\": true\n        },\n        \"api_manager\": {\n            \"view\": true\n        },\n        \"api_platform\": {\n            \"view\": false\n        },\n        \"app_viz\": {\n            \"enabled\": true,\n            \"edit\": false,\n            \"view\": true\n        },\n        \"composer\": {\n            \"view\": false\n        },\n        \"cloudhub\": {\n            \"view\": true\n        },\n        \"access_manager\": {\n            \"view\": true,\n            \"edit\": true\n        },\n        \"admin\": {\n            \"view\": false\n        },\n        \"proxy_user\": {\n            \"enabled\": true\n        },\n        \"support\": {\n            \"view\": true\n        },\n        \"general\": {\n            \"view\": true\n        },\n        \"openid\": {\n            \"view\": true\n        },\n        \"design_center\": {\n            \"view\": true\n        },\n        \"designEnvironments\": {\n            \"enabled\": true\n        },\n        \"dgw\": {\n            \"view\": false\n        },\n        \"dias-admin-console\": {\n            \"view\": false\n        },\n        \"exchange\": {\n            \"view\": true\n        },\n        \"exchange2\": {\n            \"view\": true\n        },\n        \"kpi_dashboard\": {\n            \"view\": false\n        },\n        \"messaging\": {\n            \"view\": false\n        },\n        \"metering\": {\n            \"enabled\": true,\n            \"view\": false\n        },\n        \"api_monitoring\": {\n            \"view\": false\n        },\n        \"monitoring_center\": {\n            \"view\": true\n        },\n        \"partner_manager\": {\n            \"view\": false\n        },\n        \"partners\": {\n            \"view\": false\n        },\n        \"secrets_manager\": {\n            \"view\": true\n        },\n        \"security_fabric_edge\": {\n            \"view\": false\n        },\n        \"store\": {\n            \"view\": true\n        },\n        \"tokenization\": {\n            \"view\": false\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Environment Id (Manually set as an environment variable)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/accounts/api/organizations/{{x-organization-id}}/environments",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"accounts",
+						"api",
+						"organizations",
+						"{{x-organization-id}}",
+						"environments"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Environment Id (Manually set as an environment variable)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-organization-id",
+								"value": "{{x-organization-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-owner-id",
+								"value": "{{x-owner-id}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/accounts/api/organizations/{{x-organization-id}}/environments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"accounts",
+								"api",
+								"organizations",
+								"{{x-organization-id}}",
+								"environments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"id\": \"d9ed8e2d-d3be-461b-a090-3818ff8fdc09\",\n            \"name\": \"Design\",\n            \"organizationId\": \"3d4f22b1-075d-4054-b298-04c96a1e2d2c\",\n            \"isProduction\": false,\n            \"type\": \"design\",\n            \"clientId\": \"445f139b2f1f4c8ea9fc9aae031751a5\"\n        },\n        {\n            \"id\": \"15c084ee-25bf-4e02-9557-116e5c9a2754\",\n            \"name\": \"Sandbox\",\n            \"organizationId\": \"3d4f22b1-075d-4054-b298-04c96a1e2d2c\",\n            \"isProduction\": false,\n            \"type\": \"sandbox\",\n            \"clientId\": \"161b1cb49c1742a3a39adc77d9706752\"\n        }\n    ],\n    \"total\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "Create a new project",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Initiliaze and assign data var to parse JSON response body\r",
+							"var data = JSON.parse(responseBody);\r",
+							"\r",
+							"//Assign variable access_token to JSONResponse\r",
+							"pm.environment.set(\"project_id\",data.id);\r",
+							"pm.environment.set(\"branch\",data.initialWorkingDirectory.branch);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{project_name}}\",\r\n    \"classifier\": \"{{project_classifier}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create a new project",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-organization-id",
+								"value": "{{x-organization-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-owner-id",
+								"value": "{{x-owner-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{api_project_name}}\",\r\n    \"classifier\": \"{{project_type}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/designcenter/api-designer/projects",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"designcenter",
+								"api-designer",
+								"projects"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"createdBy\": \"486bbf0f-925d-431f-9e88-50eda43f30aa\",\n    \"createdDate\": 1651750698053,\n    \"deleted\": false,\n    \"externalUri\": \"/var/lib/anypoint-vcs-bare/projects/3d4f22b1-075d-4054-b298-04c96a1e2d2c/raml/Booking Process API/da0ef740-e597-477d-bd97-e9083f3be69e\",\n    \"id\": \"da0ef740-e597-477d-bd97-e9083f3be69e\",\n    \"initialWorkingDirectory\": {\n        \"branch\": \"master\",\n        \"createdDate\": 1651750698061,\n        \"deleted\": false,\n        \"externalUriSchema\": \"FILE\",\n        \"id\": \"da9dd5ee-91eb-4126-bb51-0af1952ef9ef\",\n        \"ownerEmail\": \"nitishrajdce@gmail.com\",\n        \"ownerId\": \"486bbf0f-925d-431f-9e88-50eda43f30aa\",\n        \"ownerUsername\": \"nitishrajmay2022\",\n        \"projectId\": \"da0ef740-e597-477d-bd97-e9083f3be69e\",\n        \"vcsStorageType\": \"GIT_INTERNAL\",\n        \"vcsType\": \"GIT\"\n    },\n    \"lastUpdatedDate\": 1651750698079,\n    \"name\": \"Booking Process API\",\n    \"organizationId\": \"3d4f22b1-075d-4054-b298-04c96a1e2d2c\",\n    \"type\": \"raml\",\n    \"vcsStorageType\": \"GIT_INTERNAL\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Acquire the Write Lock",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/acquireLock",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"acquireLock"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Acquire the Write Lock",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-organization-id",
+								"value": "{{x-organization-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-owner-id",
+								"value": "{{x-owner-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/acquireLock",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"designcenter",
+								"api-designer",
+								"projects",
+								"{{project_id}}",
+								"branches",
+								"{{branch}}",
+								"acquireLock"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"locked\": true,\n    \"name\": \"nitishrajmay2022\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Add file(s) or folder(s) to upload",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//This API can be used to upload a file with or w/o folder directly to your project.\r",
+							"//It can also be used to replace root file\r",
+							"//Mention file-path in key and file directory in value"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fins-salesforce-insurance-exp-api-spec.raml",
+							"type": "file",
+							"src": "/C:/NonProjects/MuleSoft/API Spec Automation/fins-salesforce-insurance-exp-api-spec.raml"
+						},
+						{
+							"key": "dataTypes/ExternalIdType.raml",
+							"type": "file",
+							"src": "/C:/NonProjects/MuleSoft/API Spec Automation/dataTypes/ExternalIdType.raml"
+						},
+						{
+							"key": "dataTypes/ValidationResponseType.raml",
+							"type": "file",
+							"src": "/C:/NonProjects/MuleSoft/API Spec Automation/dataTypes/ValidationResponseType.raml"
+						},
+						{
+							"key": "examples/ExternalIdExample.raml",
+							"type": "file",
+							"src": "/C:/NonProjects/MuleSoft/API Spec Automation/examples/ExternalIdExample.raml"
+						},
+						{
+							"key": "examples/ValidationResponseExample.raml",
+							"type": "file",
+							"src": "/C:/NonProjects/MuleSoft/API Spec Automation/examples/ValidationResponseExample.raml"
+						},
+						{
+							"key": "accelerator-salesforce-customers-system-api.json",
+							"type": "file",
+							"src": "accelerator-salesforce-customers-sys-api-2.3.0-oas/api.json",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/save/v2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"save",
+						"v2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add file(s) or folder(s) to upload",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-organization-id",
+								"value": "{{x-organization-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-owner-id",
+								"value": "{{x-owner-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fins-salesforce-insurance-exp-api-spec.raml",
+									"type": "file",
+									"src": "/C:/NonProjects/MuleSoft/API Spec Automation/fins-salesforce-insurance-exp-api-spec.raml"
+								},
+								{
+									"key": "dataTypes/ExternalIdType.raml",
+									"type": "file",
+									"src": "/C:/NonProjects/MuleSoft/API Spec Automation/dataTypes/ExternalIdType.raml"
+								},
+								{
+									"key": "dataTypes/ValidationResponseType.raml",
+									"type": "file",
+									"src": "/C:/NonProjects/MuleSoft/API Spec Automation/dataTypes/ValidationResponseType.raml"
+								},
+								{
+									"key": "examples/ExternalIdExample.raml",
+									"type": "file",
+									"src": "/C:/NonProjects/MuleSoft/API Spec Automation/examples/ExternalIdExample.raml"
+								},
+								{
+									"key": "examples/ValidationResponseExample.raml",
+									"type": "file",
+									"src": "/C:/NonProjects/MuleSoft/API Spec Automation/examples/ValidationResponseExample.raml"
+								},
+								{
+									"key": "exchange.json",
+									"type": "file",
+									"src": "/C:/NonProjects/MuleSoft/API Spec Automation/exchange.json",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/save/v2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"designcenter",
+								"api-designer",
+								"projects",
+								"{{project_id}}",
+								"branches",
+								"{{branch}}",
+								"save",
+								"v2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "[\n    {\n        \"commitTimestamp\": 1651963129000,\n        \"path\": \".gitignore\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651963189391,\n        \"path\": \"dataTypes\",\n        \"type\": \"FOLDER\"\n    },\n    {\n        \"commitTimestamp\": 1651963129000,\n        \"path\": \"dataTypes/ExternalIdType.raml\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651963129000,\n        \"path\": \"dataTypes/ValidationResponseType.raml\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651963189392,\n        \"path\": \"examples\",\n        \"type\": \"FOLDER\"\n    },\n    {\n        \"commitTimestamp\": 1651963129000,\n        \"path\": \"examples/ExternalIdExample.raml\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651963129000,\n        \"path\": \"examples/ValidationResponseExample.raml\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651963129000,\n        \"path\": \"exchange.json\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651963129000,\n        \"path\": \"fins-salesforce-insurance-exp-api-spec.raml\",\n        \"type\": \"FILE\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Publish to Exchange",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//Create variable to get project name\r",
+							"var projectName = pm.variables.get(\"project_name\");\r",
+							"\r",
+							"//Convert project name to raml or oas naming convenion - kebab casing\r",
+							"projectName = projectName.replace(/\\s+/g, '-').toLowerCase();\r",
+							"\r",
+							"//Concat both variables to create final project name - main\r",
+							"var main = projectName.concat(\".\",pm.variables.get(\"project_language\"))\r",
+							"\r",
+							"//if (pm.variables.get(\"project_classifier\") == \"raml\")  {\r",
+							"//var main = projectName.concat(\".\",pm.variables.get(\"project_classifier\"))   }\r",
+							"// else { var main = projectName.concat(\".\", pm.variables.get(\"project_language\"))}\r",
+							"\r",
+							"console.log(main)\r",
+							"pm.environment.set(\"exchange_assetId\", projectName);\r",
+							"\r",
+							"pm.environment.set(\"project_main\",main);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"main\": \"{{project_main}}\",\r\n    \"apiVersion\": \"{{exchange_apiVersion}}\",\r\n    \"version\": \"{{exchange_assetVersion}}\",\r\n    \"assetId\": \"{{exchange_assetId}}\",\r\n    \"groupId\": \"{{x-organization-id}}\",\r\n    \"classifier\": \"{{project_classifier}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/publish/exchange",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"publish",
+						"exchange"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Publish to Exchange",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-organization-id",
+								"value": "{{x-organization-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-owner-id",
+								"value": "{{x-owner-id}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"main\": \"{{project_main}}\",\r\n    \"apiVersion\": \"{{api_version}}\",\r\n    \"version\": \"{{asset_version}}\",\r\n    \"assetId\": \"{{asset_id}}\",\r\n    \"groupId\": \"{{x-organization-id}}\",\r\n    \"classifier\": \"{{project_classifier}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/publish/exchange",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"designcenter",
+								"api-designer",
+								"projects",
+								"{{project_id}}",
+								"branches",
+								"{{branch}}",
+								"publish",
+								"exchange"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"organizationId\": \"3d4f22b1-075d-4054-b298-04c96a1e2d2c\",\n    \"groupId\": \"3d4f22b1-075d-4054-b298-04c96a1e2d2c\",\n    \"assetId\": \"fins-salesforce-insurance-exp-api-spec\",\n    \"version\": \"1.0.0\",\n    \"apiVersion\": \"v1\",\n    \"dependencies\": [],\n    \"main\": \"fins-salesforce-insurance-exp-api-spec.raml\",\n    \"versionGroup\": \"v1\",\n    \"classifier\": \"raml\",\n    \"metadata\": {\n        \"classifier\": \"raml\",\n        \"tags\": [\n            {\n                \"value\": \"raml\"\n            },\n            {\n                \"value\": \"rest\"\n            },\n            {\n                \"value\": \"api\"\n            },\n            {\n                \"key\": \"product-api-version\",\n                \"value\": \"v1\"\n            },\n            {\n                \"key\": \"original-format\",\n                \"value\": \"raml\"\n            }\n        ],\n        \"name\": \"FINS Salesforce Insurance Exp API Spec\",\n        \"type\": \"rest-api\"\n    },\n    \"name\": \"FINS Salesforce Insurance Exp API Spec\",\n    \"type\": \"rest-api\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Login via credentials",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"nitishrajapril2022\",\r\n    \"password\": \"Rjraj@511\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/accounts/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"accounts",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login via credentials",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nitishrajapril2022\",\r\n    \"password\": \"Rjraj@511\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/accounts/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"accounts",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"e344b772-9155-4dc1-b880-b616260c7e27\",\n    \"expires_in\": 3021,\n    \"token_type\": \"bearer\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Check Write Lock Status",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/status",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"status"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Check Write Lock Status",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-organization-id",
+								"value": "{{x-organization-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-owner-id",
+								"value": "{{x-owner-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/status",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"designcenter",
+								"api-designer",
+								"projects",
+								"{{project_id}}",
+								"branches",
+								"{{branch}}",
+								"status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"lock\": {\r\n        \"locked\": false,\r\n        \"lockedBy\": null,\r\n        \"lockedByMe\": false\r\n    },\r\n    \"project\": {\r\n        \"commitsAhead\": 0,\r\n        \"commitsBehind\": 0,\r\n        \"added\": [],\r\n        \"conflicts\": [],\r\n        \"deleted\": [],\r\n        \"modified\": []\r\n    }\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Add/ Update file content",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//Create variable to get project name\r",
+							"var projectName = pm.variables.get(\"project_name\");\r",
+							"\r",
+							"//Create variable to get project type\r",
+							"var projectType = pm.variables.get(\"project_type\");\r",
+							"\r",
+							"//Convert project name to raml or oas naming convenion - kebab casing\r",
+							"projectName = projectName.replace(/\\s+/g, '-').toLowerCase();\r",
+							"\r",
+							"//Concat both variables to create final project path\r",
+							"var path = projectName.concat(\".\",projectType)\r",
+							"\r",
+							"//Set path to a environment variable for POST body \r",
+							"pm.environment.set(\"project_path\",path);\r",
+							"\r",
+							"//console.log(path)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"path\": \"{{project_path}}\",\n        \"type\": \"FILE\",\n        \"content\": \"#%RAML 1.0\\ntitle: Salesforce Customers System API\\ndescription: System API working with Customers in Salesforce.\\nversion: v2\\nmediaType: application/json\\n\\nuses: \\n  GlobalResources: ./exchange_modules/org.mule.examples/accelerator-global-resources/2.2.0/accelerator-global-resources.raml\\n  MarketTypes: ./exchange_modules/org.mule.examples/accelerator-cim-market-library/1.2.0/accelerator-cim-market-library.raml\\n\\nsecuredBy: [ GlobalResources.BasicAuth ]\\n\\n/ping:\\n  get:\\n    is: [ GlobalResources.PingResponse ]\\n    description: Get the current health status of this API.\\n\\n/contacts:\\n  description: Base resource representing individual contacts.\\n  get:\\n    description: Find one or more contacts. When matching on a given identifier, the precedence order is to match on Salesforce identifier first, then external identifier. Contacts can also be looked up by email address. The result set can be narrowed further by including only contacts created or updated during a given time period.\\n    is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable, GlobalResources.Pageable ]\\n    queryParameters:\\n      contactId?:\\n        type: string\\n        description: Match on Salesforce contact identifier\\n      externalId?:\\n        type: string\\n        description: Match on an external identifier (e.g., global individual ID)\\n      emailAddress?:\\n        type: string\\n        description: Lookup by email address\\n      fromDate?:\\n        type: datetime\\n        description: Include only contacts created or updated on or after this date and time\\n      toDate?:\\n        type: datetime\\n        description: Include only contacts created or updated on or before this date and time\\n    responses:\\n      200:\\n        body:\\n          application/json:\\n            type: MarketTypes.Individual[]\\n  post:\\n    is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable, GlobalResources.Locatable ]\\n    description: Creates a new contact.\\n    body:\\n      application/json:\\n        type: MarketTypes.Individual\\n    responses: \\n      201:\\n        body: \\n          application/json:\\n            type: GlobalResources.BasicResponse\\n\\n  /{contactId}:\\n    get:\\n      is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n      description: Return details for an existing contact.\\n      responses:\\n        200:\\n          body:\\n            application/json:\\n              type: MarketTypes.Individual\\n    patch:\\n      is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n      description: Update details for an existing contact. Returns the complete updated contact.\\n      body:\\n        application/json:\\n          type: MarketTypes.Individual\\n      responses:\\n        200:\\n          body: \\n            application/json:\\n              type: MarketTypes.Individual\\n\\n/customers:\\n  description: Base resource representing customers. Each customer will be associated with exactly one party. Primary identifiers represent internal Salesforce IDs.\\n  get:\\n    description: Find one or more customers. When matching on a given identifier, the precedence order is to match on Salesforce customer identifier first, then external identifier. Customers can also be looked up by email address. The result set can be narrowed further by including only customers created or updated during a given time period. Response will include summary Party information.\\n    is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable, GlobalResources.Pageable ]\\n    queryParameters:\\n      customerId?:\\n        type: string\\n        description: Match on Salesforce customer identifier\\n      externalId?:\\n        type: string\\n        description: Match on an external identifier (e.g., global customer ID)\\n      emailAddress?:\\n        type: string\\n        description: Lookup by email address\\n      fromDate?:\\n        type: datetime\\n        description: Include only customers created or updated on or after this date and time\\n      toDate?:\\n        type: datetime\\n        description: Include only customers created or updated on or before this date and time\\n    responses:\\n      200:\\n        body:\\n          application/json:\\n            type: MarketTypes.Customer[]\\n  post:\\n    is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable, GlobalResources.Locatable ]\\n    description: Creates a new customer. Request must include the underlying Party and contact information as well.\\n    body:\\n      application/json:\\n        type: MarketTypes.Customer\\n    responses: \\n      201:\\n        body: \\n          application/json:\\n            type: GlobalResources.BasicResponse\\n\\n  /{customerId}:\\n    get:\\n      is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n      description: Return details for an existing customer, including the underlying Party and contact information.\\n      responses:\\n        200:\\n          body:\\n            application/json:\\n              type: MarketTypes.Customer\\n    patch:\\n      is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n      description: Update details for an existing customer, including the underlying Party and contact information. Returns a complete version of the updated customer.\\n      body:\\n        application/json:\\n          type: MarketTypes.Customer\\n      responses:\\n        200:\\n          body: \\n            application/json:\\n              type: MarketTypes.Customer\\n\\n    /relatedContacts:\\n      description: Resource representing contacts that are related to this customer.\\n      get:\\n        is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n        description: Return all related contacts for a customer (\\n        responses:\\n          200:\\n            body:\\n              application/json:\\n                type: MarketTypes.PartyRelatedParty[]\\n      put:\\n        is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n        description: Upsert a set of related contacts for a customer.\\n        body:\\n          application/json:\\n            type: MarketTypes.PartyRelatedParty[]\\n        responses: \\n          200:\\n            body: \\n              application/json:\\n                type: GlobalResources.BasicResponse\\n\",\n        \"title\": \"API Spec\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/master/save",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"master",
+						"save"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add/ Update project content",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-organization-id",
+								"value": "{{x-organization-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-owner-id",
+								"value": "{{x-owner-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"path\": \"{{project_name}}\" ++ \"{{project_type}}\",\n        \"type\": \"FILE\",\n        \"content\": \"#%RAML 1.0\\ntitle: Salesforce Customers System API\\ndescription: System API working with Customers in Salesforce.\\nversion: v2\\nmediaType: application/json\\n\\nuses: \\n  GlobalResources: ./exchange_modules/org.mule.examples/accelerator-global-resources/2.2.0/accelerator-global-resources.raml\\n  MarketTypes: ./exchange_modules/org.mule.examples/accelerator-cim-market-library/1.2.0/accelerator-cim-market-library.raml\\n\\nsecuredBy: [ GlobalResources.BasicAuth ]\\n\\n/ping:\\n  get:\\n    is: [ GlobalResources.PingResponse ]\\n    description: Get the current health status of this API.\\n\\n/contacts:\\n  description: Base resource representing individual contacts.\\n  get:\\n    description: Find one or more contacts. When matching on a given identifier, the precedence order is to match on Salesforce identifier first, then external identifier. Contacts can also be looked up by email address. The result set can be narrowed further by including only contacts created or updated during a given time period.\\n    is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable, GlobalResources.Pageable ]\\n    queryParameters:\\n      contactId?:\\n        type: string\\n        description: Match on Salesforce contact identifier\\n      externalId?:\\n        type: string\\n        description: Match on an external identifier (e.g., global individual ID)\\n      emailAddress?:\\n        type: string\\n        description: Lookup by email address\\n      fromDate?:\\n        type: datetime\\n        description: Include only contacts created or updated on or after this date and time\\n      toDate?:\\n        type: datetime\\n        description: Include only contacts created or updated on or before this date and time\\n    responses:\\n      200:\\n        body:\\n          application/json:\\n            type: MarketTypes.Individual[]\\n  post:\\n    is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable, GlobalResources.Locatable ]\\n    description: Creates a new contact.\\n    body:\\n      application/json:\\n        type: MarketTypes.Individual\\n    responses: \\n      201:\\n        body: \\n          application/json:\\n            type: GlobalResources.BasicResponse\\n\\n  /{contactId}:\\n    get:\\n      is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n      description: Return details for an existing contact.\\n      responses:\\n        200:\\n          body:\\n            application/json:\\n              type: MarketTypes.Individual\\n    patch:\\n      is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n      description: Update details for an existing contact. Returns the complete updated contact.\\n      body:\\n        application/json:\\n          type: MarketTypes.Individual\\n      responses:\\n        200:\\n          body: \\n            application/json:\\n              type: MarketTypes.Individual\\n\\n/customers:\\n  description: Base resource representing customers. Each customer will be associated with exactly one party. Primary identifiers represent internal Salesforce IDs.\\n  get:\\n    description: Find one or more customers. When matching on a given identifier, the precedence order is to match on Salesforce customer identifier first, then external identifier. Customers can also be looked up by email address. The result set can be narrowed further by including only customers created or updated during a given time period. Response will include summary Party information.\\n    is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable, GlobalResources.Pageable ]\\n    queryParameters:\\n      customerId?:\\n        type: string\\n        description: Match on Salesforce customer identifier\\n      externalId?:\\n        type: string\\n        description: Match on an external identifier (e.g., global customer ID)\\n      emailAddress?:\\n        type: string\\n        description: Lookup by email address\\n      fromDate?:\\n        type: datetime\\n        description: Include only customers created or updated on or after this date and time\\n      toDate?:\\n        type: datetime\\n        description: Include only customers created or updated on or before this date and time\\n    responses:\\n      200:\\n        body:\\n          application/json:\\n            type: MarketTypes.Customer[]\\n  post:\\n    is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable, GlobalResources.Locatable ]\\n    description: Creates a new customer. Request must include the underlying Party and contact information as well.\\n    body:\\n      application/json:\\n        type: MarketTypes.Customer\\n    responses: \\n      201:\\n        body: \\n          application/json:\\n            type: GlobalResources.BasicResponse\\n\\n  /{customerId}:\\n    get:\\n      is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n      description: Return details for an existing customer, including the underlying Party and contact information.\\n      responses:\\n        200:\\n          body:\\n            application/json:\\n              type: MarketTypes.Customer\\n    patch:\\n      is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n      description: Update details for an existing customer, including the underlying Party and contact information. Returns a complete version of the updated customer.\\n      body:\\n        application/json:\\n          type: MarketTypes.Customer\\n      responses:\\n        200:\\n          body: \\n            application/json:\\n              type: MarketTypes.Customer\\n\\n    /relatedContacts:\\n      description: Resource representing contacts that are related to this customer.\\n      get:\\n        is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n        description: Return all related contacts for a customer (\\n        responses:\\n          200:\\n            body:\\n              application/json:\\n                type: MarketTypes.PartyRelatedParty[]\\n      put:\\n        is: [ GlobalResources.ErrorResponses, GlobalResources.Trackable ]\\n        description: Upsert a set of related contacts for a customer.\\n        body:\\n          application/json:\\n            type: MarketTypes.PartyRelatedParty[]\\n        responses: \\n          200:\\n            body: \\n              application/json:\\n                type: GlobalResources.BasicResponse\\n\",\n        \"title\": \"API Spec\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/master/save",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"designcenter",
+								"api-designer",
+								"projects",
+								"{{project_id}}",
+								"branches",
+								"master",
+								"save"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "[\n    {\n        \"commitTimestamp\": 1651761470000,\n        \"path\": \".gitignore\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651761470000,\n        \"path\": \"Booking Process API.raml\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651761470000,\n        \"path\": \"booking-process-api.raml\",\n        \"type\": \"FILE\"\n    },\n    {\n        \"commitTimestamp\": 1651761470000,\n        \"path\": \"exchange.json\",\n        \"type\": \"FILE\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Create Fragment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{fragment_name}}\",\r\n    \"classifier\": \"raml-fragment\",\r\n    \"subType\": \"{{fragment_subType}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Datatype Folder with files",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"path\": \"dataTypes/abc.raml\",\r\n        \"type\": \"file\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/save",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Examples Folder with files",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"path\": \"examples/bus.raml\",\r\n        \"type\": \"FILE\",\r\n        \"content\": \"#%RAML 1.0 Example\\ntype: object\\nproperties:\\n  brand: string\\n  model: string\\n  color: string\\n  year?: string\",\r\n        \"title\": \"Car Datatype\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/save",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a dependency",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"add\": [\r\n        {\r\n            \"groupId\": \"{{group_id}}\",\r\n            \"assetId\": \"{{dependency_assetId}}\",\r\n            \"version\": \"{{dependency_versionId}}\"\r\n        }\r\n    ],\r\n    \"remove\": []\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/exchange/dependencies",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"exchange",
+						"dependencies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove a dependency",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"add\": [\r\n        \r\n    ],\r\n    \"remove\": [{\r\n            \"groupId\": \"{{group_id}}\",\r\n            \"assetId\": \"{{dependency_assetId}}\",\r\n            \"version\": \"{{dependency_versionId}}\"\r\n        }]\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/exchange/dependencies",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"exchange",
+						"dependencies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Move or Rename file or folder",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//uri has what file or folder to move/ rename\r",
+							"//body has where to move or rename\r",
+							"//%2F is used as escape character for / in file path in URI"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"path\": \"examples/Car.raml\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/files/example%2FCar.raml/move",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"files",
+						"example%2FCar.raml",
+						"move"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get file or folder structure",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/files",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get file content (Text response)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/files/v2/{{project_main}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"files",
+						"v2",
+						"{{project_main}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get file content (JSON response)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/files/{{project_main}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"files",
+						"{{project_main}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a project",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete file or folder",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-organization-id",
+						"value": "{{x-organization-id}}",
+						"type": "text"
+					},
+					{
+						"key": "x-owner-id",
+						"value": "{{x-owner-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/designcenter/api-designer/projects/{{project_id}}/branches/{{branch}}/files/{{project_main}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"designcenter",
+						"api-designer",
+						"projects",
+						"{{project_id}}",
+						"branches",
+						"{{branch}}",
+						"files",
+						"{{project_main}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Soft delete an asset in Exchange",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-delete-type",
+						"value": "soft-delete",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/exchange/api/v2/assets/{{x-organization-id}}/{{exchange_assetId}}/{{exchange_assetVersion}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"exchange",
+						"api",
+						"v2",
+						"assets",
+						"{{x-organization-id}}",
+						"{{exchange_assetId}}",
+						"{{exchange_assetVersion}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hard delete an asset in Exchange",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-delete-type",
+						"value": "hard-delete",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/exchange/api/v2/assets/{{x-organization-id}}/{{exchange_assetId}}/{{exchange_assetVersion}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"exchange",
+						"api",
+						"v2",
+						"assets",
+						"{{x-organization-id}}",
+						"{{exchange_assetId}}",
+						"{{exchange_assetVersion}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
