@@ -8,9 +8,10 @@ Some clients face issues with automating the API Specifications written in RAML/
 This collection of Design Centre APIs automate the need of creating, writing and publishing API specs to Design Centre and Exchange provides quick and reliable way of automating API Specifications written 
 
 # Code Example
-![API Spec Automation Pre Req] (https://github.com/nitishrajmule/api-spec-automation/blob/main/api-spec-automation-pre-req.png)
 
-![API Spec Automation Lifecycle] (https://github.com/nitishrajmule/api-spec-automation/blob/main/api-spec-automation-lifecycle.png)
+![API Spec Automation Pre Req](https://github.com/nitishrajmule/api-spec-automation/blob/main/api-spec-automation-pre-req.png)
+
+![API Spec Automation Lifecycle](https://github.com/nitishrajmule/api-spec-automation/blob/main/api-spec-automation-lifecycle.png)
 
 ## Operations
 1. Login via Connected App
