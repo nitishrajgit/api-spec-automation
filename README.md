@@ -32,6 +32,9 @@ Before we start working with Anypoint platform APIs to automate our API specific
 This collection pack contains an environment "API Specification Automation". Set the values before you use any request. You must set the following:
 
 ### If Login via Connected App (Using SSO)
+*How to create a connected app*
+https://docs.mulesoft.com/access-management/connected-apps-overview
+
 - url - Anypoint Platform domain address, e.g. https://anypoint.mulesoft.com
 - client - Connected App Client Id
 - client_secret - Connected App Client Secret
