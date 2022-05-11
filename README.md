@@ -3,11 +3,11 @@ Every time you log in to the MuleSoft Anypoint Platform using the User Interface
 
 You can make use of this project - postman collection to automate your API Specification, be it - RAML or OAS, **written anywhere.**
 
-# Motivation
+## Motivation
 Some clients face issues with automating the API Specifications written in RAML/ OAS outside of the design centre and implementing those specs using MuleSoft Anypoint Platform. Creating or pasting already written API Specs is time taking and repetitive task.
 This collection of Design Centre APIs automate the need of creating, writing and publishing API specs to Design Centre and Exchange provides quick and reliable way of automating API Specifications written 
 
-# Code Example
+## Code Example
 #### Pre - Req
 ![API Spec Automation Pre Req](https://github.com/nitishrajmule/api-spec-automation/blob/main/api-spec-automation-pre-req.png)
 
@@ -25,10 +25,10 @@ This collection of Design Centre APIs automate the need of creating, writing and
 
 - More Platform APIs regarding Exchange, API Manager can be found here - https://www.postman.com/mulesoft-api/workspace/abca7de1-d2bb-4be1-8d2b-8d56f87dfbab/documentation/16547909-1e97eed6-ef8c-4d46-9d30-2ff41c8102c5
 
-# Prerequisites
+## Prerequisites
 Before we start working with Anypoint platform APIs to automate our API specifications, you need these three pieces of data: an access token, the organization id and the owner id. Let us see where you can find those details.
 
-# Installation
+## Installation
 This collection pack contains an environment "API Specification Automation". Set the values before you use any request. You must set the following:
 
 ### If Login via Connected App (Using SSO)
@@ -151,10 +151,10 @@ curl --location --request POST 'https://anypoint.mulesoft.com/designcenter/api-d
 
 
 
-# Tests
+## Tests
 All APIs come with tests and while automating the collection, make sure they are active.
 
-# Contributing
+## Contributing
 
     1. Clone the repository
     2. Create a feature branch: git checkout -b my-new-feature
@@ -162,17 +162,17 @@ All APIs come with tests and while automating the collection, make sure they are
     4. Push to the branch: git push origin my-new-feature
     5. Submit a pull request to merge into the development branch and request peer review
 
-# TODO
+## TODO
 Do not forget to issue **Soft/ Hard delete an asset in Exchange Copy** for Design Centre and Exchange in case you are testing out this project. You would not want to create any unncessary projects/ assets in your design centre or exchange. 
 
-# Youtube tutorial on how to use this collection
+## Youtube tutorial on how to use this collection
 *Coming soon*
 
-# versioning
+## versioning
 NA 
 
-# Release
+## Release
 NA
 
-# License
+## License
 NA
